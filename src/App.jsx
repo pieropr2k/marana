@@ -10,13 +10,15 @@ import Escenario from "./components/Escenario.jsx";
 import Cartela from "./components/Cartela.jsx";
 import Otras from "./components/Otras.jsx";
 import Coleccion from "./components/Coleccion.jsx";
+import Nuestras from "./components/Nuestras.jsx";
+import { cargarNuestras } from "./lib/nuestras.js";
 import Editor from "./components/Editor.jsx";
 import { Cabecera, Como, Fuentes } from "./components/Info.jsx";
 import Navbar from "./components/Navbar.jsx";
 
 const paginaActual = () => {
   const h = window.location.hash.replace(/^#\/?/, "");
-  return h === "coleccion" || h === "info" ? h : "buscar";
+  return h === "coleccion" || h === "nuestras" || h === "info" ? h : "buscar";
 };
 
 
@@ -24,6 +26,8 @@ export default function App() {
   const [strokes, setStrokes] = useState([]);
   const [coleccion, setColeccion] = useState([]);
   const [locales, setLocales] = useState([]);
+  const [nuestras, setNuestras] = useState([]);
+  const [progNuestras, setProgNuestras] = useState({ total: 0, listos: 0 });
   const [demos, setDemos] = useState([]);
   const [cargada, setCargada] = useState(false);
   const [preparando, setPreparando] = useState({ total: 0, listos: 0 });
@@ -61,7 +65,7 @@ export default function App() {
 
   // las funciones asíncronas leen siempre lo último
   const S = useRef({});
-  S.current = { strokes, coleccion, locales, demos, shown, page, listo: listoRef.current };
+  S.current = { strokes, coleccion, locales, nuestras, demos, shown, page, listo: listoRef.current };
 
   const stageSize = () => {
     const r = canvasRef.current.getBoundingClientRect();
@@ -93,7 +97,7 @@ export default function App() {
       return;
     }
     setPadFlags(null);
-    const real = src.coleccion.concat(src.locales);
+    const real = src.coleccion.concat(src.nuestras || [], src.locales);
     const demo = !real.length;
     const items = demo ? src.demos.filter((d) => d.low) : real.filter((it) => it.low && !it.error);
     if (!items.length) { setMsg(real.length ? "Todavía estoy preparando las fotos…" : "No hay fotos en la colección."); return; }
@@ -150,9 +154,18 @@ export default function App() {
             if (listos < total) setMsg(`Preparando las fotos… ${listos}/${total}`);
           });
         } else ds = await buildDemos();
+        // fotos del equipo (fotos_final): se analizan en el navegador y entran a la búsqueda como las demás
+        let nu = [];
+        try {
+          nu = await cargarNuestras((listos, total) => {
+            setProgNuestras({ listos, total });
+            if (listos < total) setMsg(`Preparando las fotos nuestras… ${listos}/${total}`);
+          });
+        } catch (e) { /* sin fotos nuestras */ }
+        setNuestras(nu);
         setDemos(ds);
         setCargada(true);
-        if (strokes0.length) await runSearch(strokes0, { coleccion: col, locales: [], demos: ds });
+        if (strokes0.length) await runSearch(strokes0, { coleccion: col, nuestras: nu, locales: [], demos: ds });
         else setMsg("");
         listoRef.current = true;
       } catch (e) {
@@ -243,7 +256,7 @@ export default function App() {
     const next = numerar([...cur.locales, it], cur.coleccion.length);
     setLocales(next);
     poner(`lista (solo en este navegador), ${gpsTxt}`);
-    if (cur.strokes.length) runSearch(cur.strokes, { coleccion: cur.coleccion, locales: next, demos: cur.demos });
+    if (cur.strokes.length) runSearch(cur.strokes, { coleccion: cur.coleccion, nuestras: cur.nuestras, locales: next, demos: cur.demos });
   };
 
   const eliminar = async (it) => {
@@ -252,7 +265,7 @@ export default function App() {
     URL.revokeObjectURL(it.src);
     olvidar(it);
     setLocales(next);
-    if (resultsRef.current.some((r) => r.it === it)) runSearch(cur.strokes, { coleccion: cur.coleccion, locales: next, demos: cur.demos });
+    if (resultsRef.current.some((r) => r.it === it)) runSearch(cur.strokes, { coleccion: cur.coleccion, nuestras: cur.nuestras, locales: next, demos: cur.demos });
   };
 
   const guardarEdicion = (datos) => {
@@ -262,6 +275,7 @@ export default function App() {
   };
 
   const real = useMemo(() => coleccion.concat(locales), [coleccion, locales]);
+  const todas = useMemo(() => coleccion.concat(nuestras, locales), [coleccion, nuestras, locales]);
 
   return (
     <>
@@ -306,10 +320,17 @@ export default function App() {
         </main>
       )}
 
+      {page === "nuestras" && (
+        <main className="wrap pagina">
+          <Nuestras fotos={nuestras} progreso={progNuestras} />
+          <p className="pie">Maraña · proyecto de arte y tecnología · Perú, 2026</p>
+        </main>
+      )}
+
       {page === "info" && (
         <main className="wrap pagina">
           <Como />
-          <Fuentes real={real} />
+          <Fuentes real={todas} />
           <p className="pie">Maraña · proyecto de arte y tecnología · Perú, 2026</p>
         </main>
       )}

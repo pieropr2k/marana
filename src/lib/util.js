@@ -37,13 +37,14 @@ export const hasGeo = (it) => typeof it.lat === "number" && typeof it.lon === "n
 export const esReal = (it) => it && it.kind !== "demo";
 export function codeOf(it) {
   if (it.kind === "demo") return `Prueba ${pad2(it.code)}`;
+  if (it.kind === "nuestra") return `Foto nuestra Nº ${pad2(it.code)}`;
   return `Maraña Nº ${pad3(it.code)}`;
 }
 export function lugarPrincipal(it) {
   if (it.kind === "demo") return "Imagen de prueba";
   if (it.lugarTexto) return it.lugarTexto;
   const l = it.lugar || {};
-  return l.calle || l.zona || (l.distrito ? "Distrito de " + l.distrito : "") || (it.ciudad ? "Cerca de " + (NOMBRE_CIUDAD[it.ciudad] || it.ciudad) : "Lugar sin escribir");
+  return l.calle || l.zona || (l.distrito ? "Distrito de " + l.distrito : "") || (it.ciudad ? "Cerca de " + (NOMBRE_CIUDAD[it.ciudad] || it.ciudad) : it.kind === "nuestra" ? "Foto del equipo" : "Lugar sin escribir");
 }
 export function zonaDe(it) {
   const l = it.lugar || {};

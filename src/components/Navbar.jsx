@@ -5,6 +5,9 @@ const Icono = {
   coleccion: (
     <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5" /><rect x="13" y="4" width="7" height="7" rx="1.5" /><rect x="4" y="13" width="7" height="7" rx="1.5" /><rect x="13" y="13" width="7" height="7" rx="1.5" /></svg>
   ),
+  nuestras: (
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="17" height="12" rx="2" /><circle cx="12" cy="12.5" r="3.2" /><path d="M8.5 6.5l1-2h5l1 2" /></svg>
+  ),
   info: (
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5M12 7.8v.1" /></svg>
   ),
@@ -13,6 +16,7 @@ const Icono = {
 export const PAGINAS = [
   { id: "buscar", etiqueta: "Buscar", icono: Icono.buscar },
   { id: "coleccion", etiqueta: "La colección", corta: "Colección", icono: Icono.coleccion },
+  { id: "nuestras", etiqueta: "Fotos nuestras", corta: "Nuestras", icono: Icono.nuestras },
   { id: "info", etiqueta: "Cómo funciona", corta: "Cómo funciona", icono: Icono.info },
 ];
 

@@ -24,6 +24,7 @@ function Credito({ it }) {
       </>
     );
   }
+  if (it.kind === "nuestra") return <>Foto tomada por el equipo de Maraña{it.autor ? ` (${it.autor})` : ""}</>;
   if (it.autor) return <>Foto de {it.autor} (del grupo)</>;
   return null;
 }

@@ -45,7 +45,7 @@ export function Fuentes({ real }) {
   const usadas = [];
   if (porFuente.commons) usadas.push("Wikimedia Commons (cada foto con su autor y su licencia, casi siempre Creative Commons)");
   if (porFuente.mapillary) usadas.push("Mapillary (CC BY-SA 4.0; difumina caras y placas automáticamente)");
-  if (porFuente.grupo) usadas.push("fotos tomadas por el grupo");
+  if (porFuente.grupo) usadas.push("fotos tomadas por el grupo y por el equipo");
   const recortadas = real.filter((it) => it.recorte).length;
   const conModelo = real.some((it) => it.enc && it.enc.cm);
   const derivadas = " La imagen con cables iluminados y la postal descargable llevan dentro el crédito (autor, licencia y enlace) y avisan que están modificadas. Con fotos CC BY-SA, esas versiones se comparten con la misma licencia.";

@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "_ayuda": "Opcional por foto: lugarTexto, autor, lat, lon, fecha (AAAA-MM-DD). Si no hay lat/lon se intenta leer el GPS de la foto.",
+ "fotos": [
+  {
+   "archivo": "foto_1_mod.jpg"
+  },
+  {
+   "archivo": "foto_2_mod.jpg"
+  },
+  {
+   "archivo": "foto_3_mod.jpg"
+  },
+  {
+   "archivo": "foto_3.jpg"
+  },
+  {
+   "archivo": "foto_4_mod.jpg"
+  },
+  {
+   "archivo": "foto_5_mod.jpg"
+  },
+  {
+   "archivo": "foto_6_mod.jpg"
+  },
+  {
+   "archivo": "foto_7_mod.jpg"
+  },
+  {
+   "archivo": "foto_8_mod.jpg"
+  },
+  {
+   "archivo": "foto_9.jpg"
+  },
+  {
+   "archivo": "foto_10_mod.jpg"
+  },
+  {
+   "archivo": "foto_11.jpg"
+  },
+  {
+   "archivo": "foto_12.jpg"
+  },
+  {
+   "archivo": "foto_13_mod.jpg"
+  },
+  {
+   "archivo": "foto_14_mod.jpg"
+  },
+  {
+   "archivo": "foto_15_mod.jpg"
+  },
+  {
+   "archivo": "foto_16.jpg"
+  },
+  {
+   "archivo": "foto_17.jpg"
+  },
+  {
+   "archivo": "foto_18_mod_2.jpg"
+  },
+  {
+   "archivo": "foto_18_mod.jpg"
+  },
+  {
+   "archivo": "foto_18.jpg"
+  }
+ ]
+}

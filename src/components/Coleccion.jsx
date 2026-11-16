@@ -17,7 +17,7 @@ function Credito({ it }) {
   );
 }
 
-function Ficha({ it, onEditar, onEliminar }) {
+export function Ficha({ it, onEditar, onEliminar }) {
   const [confirmando, setConfirmando] = useState(false);
   const [error, setError] = useState("");
   const [ocupada, setOcupada] = useState(false);
@@ -38,9 +38,9 @@ function Ficha({ it, onEditar, onEliminar }) {
       <p className="ficha-estado">
         {demo ? <span className="marca-chip">Prueba</span> : (
           <>
-            <span className="marca-chip">{it.kind === "coleccion" ? FUENTES[it.fuente] : "Del grupo"}</span>
+            <span className="marca-chip">{it.kind === "coleccion" ? FUENTES[it.fuente] : it.kind === "nuestra" ? "Foto nuestra" : "Del grupo"}</span>
             {it.kind !== "coleccion" && <span className="marca-chip">{hasGeo(it) ? "GPS" : "Sin GPS"}</span>}
-            {it.kind !== "coleccion" && !it.lugarTexto && <span className="marca-chip falta">Falta el lugar</span>}
+            {it.kind === "local" && !it.lugarTexto && <span className="marca-chip falta">Falta el lugar</span>}
             {it.error ? <span className="marca-chip falta">No se pudo analizar</span> : !it.low && <span className="marca-chip">Analizando…</span>}
           </>
         )}
