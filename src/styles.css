@@ -52,7 +52,7 @@ a { color: inherit; }
 .cuadro { position: relative; aspect-ratio: 1 / 1; width: 100%; }
 .cuadro > canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .lienzo { background: radial-gradient(120% 90% at 30% 20%, #eceeeb 0%, var(--cielo-claro) 55%, #d9dbd8 100%); box-shadow: inset 0 0 0 1px var(--linea); cursor: crosshair; touch-action: none; }
-.lienzo-pista { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--gris); font-family: var(--font-mono); font-size: 0.9375rem; pointer-events: none; }
+.lienzo-pista { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 20px; text-align: center; text-wrap: balance; overflow: hidden; color: var(--gris); font-family: var(--font-mono); font-size: 0.9375rem; pointer-events: none; }
 .escenario { background: var(--noche); }
 .escenario-msg { position: absolute; left: 12px; right: 12px; bottom: 12px; margin: 0; color: #e9e9e6; font-family: var(--font-mono); font-size: 0.8125rem; text-shadow: 0 1px 2px #000; pointer-events: none; }
 .escenario-msg:empty { display: none; }
@@ -220,6 +220,26 @@ a { color: inherit; }
   .paso-resultado .diptico > .panel:nth-child(1), .paso-resultado .cabecera { display: none; }
   .paso-dibujar .aviso-movil { display: block; margin: 8px 0 0; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--gris); }
   .paso-dibujar .aviso-movil:empty { display: none; }
+  /* paso 1 ocupa exactamente la pantalla (menos el navbar), sin scroll: el lienzo cuadrado se ajusta al espacio libre */
+  .paso-dibujar:not([hidden]) {
+    height: calc(100vh - 76px - env(safe-area-inset-bottom)); height: calc(100dvh - 76px - env(safe-area-inset-bottom));
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .paso-dibujar .cabecera { padding: 12px 0 8px; flex: none; }
+  .paso-dibujar .marca { font-size: clamp(52px, 15vw, 96px); }
+  .paso-dibujar .bajada, .paso-dibujar .pie { display: none; }
+  .paso-dibujar .cabecera .ceja { margin-bottom: 2px; }
+  .paso-dibujar > .wrap { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
+  .paso-dibujar .aviso-movil { flex: none; margin: 0 0 4px; }
+  .paso-dibujar .diptico { flex: 1; min-height: 0; display: flex; flex-direction: column; margin-top: 0; }
+  .paso-dibujar .diptico > .panel:nth-child(1) { flex: 1; min-height: 0; gap: 8px; padding-bottom: 8px; }
+  .paso-dibujar .panel-cab { font-size: 13px; flex: none; }
+  .paso-dibujar .panel-cab .n { font-size: 24px; }
+  .paso-dibujar .cuadro { flex: 1; min-height: 160px; aspect-ratio: auto; container-type: size; }
+  .paso-dibujar .cuadro > canvas { inset: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100cqw, 100cqh); height: min(100cqw, 100cqh); }
+  .paso-dibujar .lienzo-pista { inset: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100cqw, 100cqh); height: min(100cqw, 100cqh); }
+  .paso-dibujar .panel > .fila, .paso-dibujar .lienzo-leyenda { flex: none; }
+  .paso-dibujar .btn { padding: 8px 12px; font-size: 14px; }
   .paso-resultado .otra-vez { display: block; margin: 16px 0 0; }
   .paso-resultado .otra-vez .btn { width: 100%; justify-content: center; }
   .paso-resultado .otra-vez:last-of-type { margin-top: 24px; }

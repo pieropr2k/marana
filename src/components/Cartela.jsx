@@ -49,7 +49,9 @@ export default function Cartela({ estado, r, metaVacio, onPostal }) {
   };
 
   let cod = "—", lugar = "Buscando…", zona = "", coords = "", meta = "", badge = null, detalle = "", p = 0, capMapa = "";
-  if (estado === "vacio") {
+  if (estado === "inicio") {
+    lugar = "Dibuja una forma para empezar";
+  } else if (estado === "vacio") {
     cod = "Sin resultado";
     lugar = "No encontré una foto donde los cables formen esa forma";
     meta = metaVacio;

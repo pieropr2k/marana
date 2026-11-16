@@ -21,7 +21,7 @@ const paginaActual = () => {
 
 
 export default function App() {
-  const [strokes, setStrokes] = useState(() => presetNormalized("circulo"));
+  const [strokes, setStrokes] = useState([]);
   const [coleccion, setColeccion] = useState([]);
   const [locales, setLocales] = useState([]);
   const [demos, setDemos] = useState([]);
@@ -32,7 +32,7 @@ export default function App() {
 
   const [msg, setMsg] = useState("Cargando la colección…");
   const [buscando, setBuscando] = useState(false);
-  const [fase, setFase] = useState("buscando"); // buscando | vacio | resultado
+  const [fase, setFase] = useState("inicio"); // inicio | buscando | vacio | resultado
   const [variantes, setVariantes] = useState(null);
   const [lista, setLista] = useState([]);
   const [aprox, setAprox] = useState([]);
@@ -152,7 +152,8 @@ export default function App() {
         } else ds = await buildDemos();
         setDemos(ds);
         setCargada(true);
-        await runSearch(strokes0, { coleccion: col, locales: [], demos: ds });
+        if (strokes0.length) await runSearch(strokes0, { coleccion: col, locales: [], demos: ds });
+        else setMsg("");
         listoRef.current = true;
       } catch (e) {
         setMsg("Algo falló al iniciar: " + (e && e.message));
