@@ -17,7 +17,7 @@ function Credito({ it }) {
   );
 }
 
-export function Ficha({ it, onEditar, onEliminar }) {
+export function Ficha({ it, onEditar, onEliminar, onAbrir }) {
   const [confirmando, setConfirmando] = useState(false);
   const [error, setError] = useState("");
   const [ocupada, setOcupada] = useState(false);
@@ -30,9 +30,12 @@ export function Ficha({ it, onEditar, onEliminar }) {
 
   return (
     <article className="ficha">
-      <div className="foto">
-        <img loading="lazy" src={it.thumb || it.src} alt={demo ? "Imagen de prueba generada por computadora" : "Cables en " + lugarPrincipal(it)} />
-      </div>
+      {(() => {
+        const img = <img loading="lazy" src={it.thumb || it.src} alt={demo ? "Imagen de prueba generada por computadora" : "Cables en " + lugarPrincipal(it)} />;
+        return onAbrir
+          ? <button type="button" className="foto foto-zoom" onClick={() => onAbrir(it)} aria-label={"Ampliar " + codeOf(it)}>{img}</button>
+          : <div className="foto">{img}</div>;
+      })()}
       <p className="ficha-cod">{codeOf(it)}</p>
       <p className="ficha-lugar">{demo ? "Generada por computadora" : lugarPrincipal(it)}</p>
       <p className="ficha-estado">

@@ -255,3 +255,13 @@ a { color: inherit; }
   .pasos { grid-template-columns: 1fr; }
   .otras-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* foto ampliada (Fotos nuestras) */
+.ficha .foto-zoom { display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; position: relative; }
+.ficha .foto-zoom img { transition: transform .25s ease; }
+.ficha .foto-zoom:hover img, .ficha .foto-zoom:focus-visible img { transform: scale(1.05); }
+.zoom-capa { position: fixed; inset: 0; z-index: 60; background: rgba(14, 15, 16, 0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; cursor: zoom-out; }
+.zoom-capa img { max-width: 100%; max-height: calc(100vh - 90px); object-fit: contain; cursor: default; }
+.zoom-pie { margin: 0; color: #e9e9e6; font-size: 14px; text-align: center; }
+.zoom-cerrar { position: absolute; top: 10px; right: 14px; width: 44px; height: 44px; border: 0; background: transparent; color: #fff; font-size: 34px; line-height: 1; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .ficha .foto-zoom img { transition: none; } }

@@ -1,12 +1,26 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Mapa from "./Mapa.jsx";
 import { Ficha } from "./Coleccion.jsx";
-import { hasGeo } from "../lib/util.js";
+import { codeOf, hasGeo, lugarPrincipal } from "../lib/util.js";
 
 const NADA = () => {};
 
 export default function Nuestras({ fotos, progreso }) {
   const pts = useMemo(() => fotos.filter(hasGeo).map((it) => ({ lat: it.lat, lon: it.lon })), [fotos]);
+  const [abierta, setAbierta] = useState(null);
+  useEffect(() => {
+    if (!abierta) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setAbierta(null);
+      else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        const i = fotos.indexOf(abierta);
+        const j = (i + (e.key === "ArrowRight" ? 1 : -1) + fotos.length) % fotos.length;
+        setAbierta(fotos[j]);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [abierta, fotos]);
   const cargando = progreso.listos < progreso.total;
   let datos = fotos.length ? `${fotos.length} fotos tomadas por el equipo · ${pts.length} con ubicación` : cargando ? "Cargando las fotos…" : "Todavía no hay fotos del equipo.";
   if (cargando && fotos.length) datos += ` · analizando ${progreso.listos}/${progreso.total}`;
@@ -27,8 +41,15 @@ export default function Nuestras({ fotos, progreso }) {
         )}
       </div>
       <div className="rejilla">
-        {fotos.map((it) => <Ficha key={it.id} it={it} onEditar={NADA} onEliminar={NADA} />)}
+        {fotos.map((it) => <Ficha key={it.id} it={it} onEditar={NADA} onEliminar={NADA} onAbrir={setAbierta} />)}
       </div>
+      {abierta && (
+        <div className="zoom-capa" role="dialog" aria-modal="true" aria-label={"Foto ampliada: " + codeOf(abierta)} onClick={() => setAbierta(null)}>
+          <button type="button" className="zoom-cerrar" aria-label="Cerrar" onClick={() => setAbierta(null)}>×</button>
+          <img src={abierta.src} alt={"Cables en " + lugarPrincipal(abierta)} onClick={(e) => e.stopPropagation()} />
+          <p className="zoom-pie">{codeOf(abierta)} · {lugarPrincipal(abierta)}</p>
+        </div>
+      )}
     </section>
   );
 }
