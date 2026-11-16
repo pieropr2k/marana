@@ -33,7 +33,7 @@ export function Ficha({ it, onEditar, onEliminar, onAbrir }) {
       {(() => {
         const img = <img loading="lazy" src={it.thumb || it.src} alt={demo ? "Imagen de prueba generada por computadora" : "Cables en " + lugarPrincipal(it)} />;
         return onAbrir
-          ? <button type="button" className="foto foto-zoom" onClick={() => onAbrir(it)} aria-label={"Ampliar " + codeOf(it)}>{img}</button>
+          ? <button type="button" className="foto foto-zoom" onClick={() => onAbrir(it)} aria-label={"Ampliar " + codeOf(it)}>{img}<span className="foto-pista" aria-hidden="true">Presiona para hacer zoom</span></button>
           : <div className="foto">{img}</div>;
       })()}
       <p className="ficha-cod">{codeOf(it)}</p>

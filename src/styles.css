@@ -265,3 +265,8 @@ a { color: inherit; }
 .zoom-pie { margin: 0; color: #e9e9e6; font-size: 14px; text-align: center; }
 .zoom-cerrar { position: absolute; top: 10px; right: 14px; width: 44px; height: 44px; border: 0; background: transparent; color: #fff; font-size: 34px; line-height: 1; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .ficha .foto-zoom img { transition: none; } }
+.ficha .foto-zoom { overflow: hidden; }
+.foto-pista { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 8px 8px; font-size: 13px; font-weight: 600; text-align: center; color: #fff; background: linear-gradient(to top, rgba(14,15,16,.82), rgba(14,15,16,0)); opacity: 0; transform: translateY(6px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
+.ficha .foto-zoom:hover .foto-pista, .ficha .foto-zoom:focus-visible .foto-pista { opacity: 1; transform: none; }
+@media (hover: none) { .foto-pista { display: none; } }
+@media (prefers-reduced-motion: reduce) { .foto-pista { transition: none; } }
